@@ -29,38 +29,163 @@ footer {
     padding: 10px 0;
 }
 
-.welcome-container {
+.login-container {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 600px;
+    max-width: 400px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.welcome-container h2 {
-    margin-bottom: 15px;
+.login-container h2 {
+    margin-bottom: 25px;
     color: #6a1b9a; /* Violet */
 }
 
-.welcome-container p {
-    margin-bottom: 20px;
-    color: #333;
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.button {
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+    border-color: #ff9800; /* Orange */
+    outline: none;
+}
+
+.login-container input[type="submit"] {
     background-color: #ff9800; /* Orange */
     color: white;
-    padding: 10px 20px;
-    text-decoration: none;
+    border: none;
+    padding: 12px;
     border-radius: 5px;
-    transition: background-color 0.3s;
+    cursor: pointer;
+    width: calc(100% - 20px);
+    margin-top: 20px;
 }
 
-.button:hover {
+.login-container input[type="submit"]:hover {
     background-color: #e68a00;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    font-size: 16px;
+}
+
+.login-container input[type="submit"] {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th,
+table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+.welcome-container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.input-container {
+    margin-bottom: 20px;
+}
+
+.input-container input {
+    padding: 10px;
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+}
+
+.input-container button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.input-container button:hover {
+    background-color: #45a049;
+}
+.container {
+    display: flex;
+}
+
+.sidebar {
+    flex: 1;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+.main-content {
+    flex: 3;
+    padding: 20px;
+}
+
+.welcome-container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.input-container {
+    margin-bottom: 20px;
+}
+
+.input-container input {
+    padding: 10px;
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+}
+
+.input-container button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.input-container button:hover {
+    background-color: #45a049;
 }
