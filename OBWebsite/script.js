@@ -1,60 +1,84 @@
 window.onload = function() {
-    // Fonction pour charger le fichier CSV dans la colonne spécifiée
-    function loadCSVInColumn(file, columnId) {
+    // Fonction pour charger le contenu du fichier CSV dans la colonne spécifiée
+function loadCSVInColumn(csv, columnId) {
+    var lines = csv.split('\n');
+    var html = '<table>';
+    lines.forEach(function(line) {
+        html += '<tr>';
+        var cells = line.split(';'); // Utiliser le point-virgule comme séparateur
+        cells.forEach(function(cell) {
+            html += '<td>' + cell + '</td>';
+        });
+        html += '</tr>';
+    });
+    html += '</table>';
+    document.getElementById(columnId).innerHTML = html; // Mettre le contenu dans la colonne spécifiée
+}
+
+
+    // Fonction pour charger le fichier CSV
+    function loadCSVFile(file, columnId) {
         var reader = new FileReader();
         reader.onload = function(event) {
             var csv = event.target.result;
-            processData(csv, columnId);
+            loadCSVInColumn(csv, columnId);
         };
         reader.readAsText(file);
     }
 
-    // Fonction pour traiter les données CSV et générer le HTML du tableau
-    function processData(csv, columnId) {
-        var lines = csv.split('\n');
-        var html = '<table>';
-        lines.forEach(function(line) {
-            html += '<tr>';
-            var cells = line.split(',');
-            cells.forEach(function(cell) {
-                html += '<td>' + cell + '</td>';
-            });
-            html += '</tr>';
-        });
-        html += '</table>';
-        document.getElementById(columnId).innerHTML = '<h2>' + columnId.charAt(0).toUpperCase() + columnId.slice(1) + '</h2>' + html; // Mettre le contenu dans la colonne spécifiée
-    }
-
-    // Gestionnaire d'événement pour le clic sur le bouton
+    // Gestionnaire d'événement pour le clic sur le bouton de chargement
     document.getElementById('loadButton').addEventListener('click', function() {
         var fileInput = document.getElementById('fileInput');
+        var columnSelect = document.getElementById('columnSelect');
+        var columnId = columnSelect.value;
+
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];
-            var selectedColumn = document.querySelector('.sidebar.selected');
-            if (selectedColumn) {
-                var columnId = selectedColumn.id;
-                loadCSVInColumn(file, columnId); // Appeler la fonction pour charger le fichier dans la colonne sélectionnée
-            }
+            loadCSVFile(file, columnId); // Charger le fichier sélectionné dans la colonne spécifiée
         } else {
-            alert('Veuillez sélectionner un fichier CSV.');
+            // Charger le fichier par défaut correspondant à la colonne sélectionnée
+            var fileName = '';
+            switch (columnId) {
+                case 'filmsData':
+                    fileName = 'Films.csv';
+                    break;
+                case 'mangaData':
+                    fileName = 'Manga.csv';
+                    break;
+                case 'musiqueData':
+                    fileName = 'Musique.csv';
+                    break;
+                default:
+                    console.error('Fichier CSV par défaut non défini pour la colonne ' + columnId);
+                    return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', fileName, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    loadCSVInColumn(xhr.responseText, columnId);
+                }
+            };
+            xhr.send();
         }
     });
 
-    // Charger le fichier CSV automatiquement après le chargement de la page
-    var files = ['interests.csv', 'manga.csv']; // Noms des fichiers à charger automatiquement
-    files.forEach(function(file) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', file);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    var columnId = file.split('.')[0] + 'Column';
-                    loadCSVInColumn(xhr.responseText, columnId); // Appeler la fonction pour charger le fichier dans la colonne spécifiée
-                } else {
-                    console.error('Impossible de charger le fichier ' + file);
-                }
-            }
-        };
-        xhr.send();
+    // Ajout du gestionnaire d'événements pour la recherche
+    document.getElementById('searchInput').addEventListener('input', function() {
+        var searchText = this.value.toLowerCase();
+        var columns = ['filmsData', 'mangaData', 'musiqueData'];
+        columns.forEach(function(columnId) {
+            var rows = document.querySelectorAll('#' + columnId + ' table tr');
+            rows.forEach(function(row) {
+                var found = false;
+                row.querySelectorAll('td').forEach(function(cell) {
+                    if (cell.textContent.toLowerCase().includes(searchText)) {
+                        found = true;
+                    }
+                });
+                row.style.display = found ? '' : 'none';
+            });
+        });
     });
 };
