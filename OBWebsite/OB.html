@@ -20,7 +20,6 @@
                 <h2>Manga</h2>
                 <section id="mangaData"></section>
             </section>
-            
             <section class="sidebar" id="musiqueColumn">
                 <h2>Musique</h2>
                 <section id="musiqueData"></section>
@@ -33,14 +32,14 @@
                     <section class="input-container">
                         <input type="file" id="fileInput" accept=".csv">
                         <select id="columnSelect">
-                            <option value="filmsData">Films</option>
-                            <option value="mangaData">Manga</option>
-                            
-                            <option value="musiqueData">Musique</option>
+                            <option value="films">Films</option>
+                            <option value="manga">Manga</option>
+                            <option value="musique">Musique</option>
                         </select>
                         <button id="loadButton" class="button">Charger le fichier CSV</button>
                     </section>
                     <input type="text" id="searchInput" placeholder="Rechercher...">
+                    <ul id="myList"></ul>
                 </section>
             </section>
         </section>
@@ -48,6 +47,7 @@
     <footer>
         <p>&copy; 2024 OB. Tous droits réservés.</p>
     </footer>
+    <script src="xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
